@@ -62,7 +62,7 @@ public class WordCountTest {
                         System.out.println(v);
                     }
                 });
-        
+
         sc.stop();
     }
 }

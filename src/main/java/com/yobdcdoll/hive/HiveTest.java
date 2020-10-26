@@ -10,8 +10,8 @@ public class HiveTest {
     public static void main(String[] args) {
         SparkSession spark = SparkSession.builder()
                 .appName("HiveTest")
-                .master("local[*]")
-//                .enableHiveSupport()
+//                .master("local[*]")
+                .enableHiveSupport()
                 .getOrCreate();
 
         /**
@@ -29,19 +29,22 @@ public class HiveTest {
 
         spark.udf().register("movieUDAF", new MovieUDAF());
 
-        Dataset<Row> moviesDs = spark.read()
-                .format("csv")
-                .option("inferSchema", "true")
-                .option("header", "true")
-                .option("timestampFormat", "yyyy-MM-dd'T'HH:mm:ss.SSS")
-                .load("input/movies.csv");
+//        Dataset<Row> moviesDs = spark.read()
+//                .format("csv")
+//                .option("inferSchema", "true")
+//                .option("header", "true")
+//                .option("timestampFormat", "yyyy-MM-dd'T'HH:mm:ss.SSS")
+//                .load("input/movies.csv");
+//
+//        moviesDs.createOrReplaceTempView("movies");
+//
+//        spark.sql("create temporary function movieUDTF as 'com.yobdcdoll.hive.MovieUDTF'");
+//
+//        spark.sql("select movieUDTF(genres) genre from movies")
+//                .show();
 
-        moviesDs.createOrReplaceTempView("movies");
-
-        spark.sql("create temporary function movieUDTF as 'com.yobdcdoll.hive.MovieUDTF'");
-
-        spark.sql("select movieUDTF(genres) genre from movies")
-                .show();
+        spark.sql("insert overwrite table users select * from users");
+//        spark.sql("show tables");
 
         spark.stop();
     }
